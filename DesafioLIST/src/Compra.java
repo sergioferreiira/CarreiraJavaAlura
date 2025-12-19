@@ -3,14 +3,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Compra {
-    public static void main(String[] args) {
 
-        List<String> listaTeste = new ArrayList<>();
+    List<String> listaCompras = new ArrayList<>();
 
-        BigDecimal x = new BigDecimal("100.0");
-        listaTeste.add("tulipa"+ " "+ x);
+    public void validaCompra(Cartao cartao, BigDecimal valorCompra, String descricao){
+        if (cartao.getFatura().add(valorCompra).compareTo(cartao.getLimite()) <= 0){
+            cartao.adicionaFatura(valorCompra);
 
-        System.out.println(listaTeste);
+            listaCompras.add(descricao + " - " + valorCompra);
 
+            System.out.println("Compra Realizada \n");
+        }else {
+            System.out.println("O valor dessa compra é maior que o limite do seu cartao!!!");
+            System.out.println("Seu limite é : " + cartao.getLimite());
+        }
     }
+
+    public void printCompras(Cartao cartao){
+        System.out.println("**********FATURA**********");
+        for(String compra : listaCompras){
+            System.out.println(compra);
+        }
+        System.out.println("**************************");
+        System.out.println("Saldo cartão : " + cartao.getSaldoCartao());
+    }
+
 }

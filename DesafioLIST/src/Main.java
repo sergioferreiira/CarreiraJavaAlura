@@ -14,6 +14,7 @@ public class Main {
 
 
         Cartao meuCartao = new Cartao(limite ,fatura);
+        Compra minhaCompra = new Compra();
 
 
         s.nextLine();
@@ -27,7 +28,7 @@ public class Main {
             BigDecimal valorCompra = s.nextBigDecimal();
             s.nextLine();
 
-            meuCartao.validaCompra(valorCompra, descricao);
+            minhaCompra.validaCompra(meuCartao,valorCompra, descricao);
 
             System.out.println("Digite 0 para continuar 1 para sair! \n");
 
@@ -35,7 +36,7 @@ public class Main {
             s.nextLine();
 
             if(valida == 1){
-                meuCartao.printFatura();
+                minhaCompra.printCompras(meuCartao);
                 break;
             }else {
                 continue;

@@ -1,13 +1,10 @@
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Cartao {
     private BigDecimal fatura;
     private BigDecimal limite;
     private BigDecimal saldoCartao;
-
-    List<String> listaCompras = new ArrayList<>();
 
 
     public Cartao(BigDecimal limite, BigDecimal fatura) {
@@ -34,27 +31,6 @@ public class Cartao {
 
     public void setLimite(BigDecimal limite) {
         this.limite = limite;
-    }
-
-    public void validaCompra(BigDecimal valorCompra , String descricao){
-        if (getFatura().add(valorCompra).compareTo(getLimite()) <= 0){
-            adicionaFatura(valorCompra);
-            listaCompras.add(descricao + " - " + valorCompra);
-
-            System.out.println("Compra Realizada \n");
-        }else {
-            System.out.println("O valor dessa compra é maior que o limite do seu cartao!!!");
-            System.out.println("Seu limite é : " + getLimite());
-        }
-    }
-
-    public void printFatura(){
-        System.out.println("**********FATURA**********");
-        for(String compra : listaCompras){
-            System.out.println(compra);
-        }
-        System.out.println("**************************");
-        System.out.println("Saldo cartão : " + getSaldoCartao());
     }
 
 
