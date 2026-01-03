@@ -11,21 +11,15 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scan = new Scanner(System.in);
 
-//        System.out.println("Digite o nome do filme que deseja receber as informações: ");
-//        var scanFilme  = scan.nextLine();
-//
-//
-//        Ombd filme1 = new Ombd(scanFilme);
-//
-//        System.out.println(filme1.getUrl());
+        System.out.println("Digite o nome do filme que deseja receber as informações: ");
+        var scanFilme  = scan.nextLine();
 
-        System.out.println("Digite o nome do livro que deseja receber as informações: ");
-        var scanLivro  = scan.nextLine();
+        Ombd filme1 = new Ombd(scanFilme);
 
 
-        googleBooksAPI livro1 = new googleBooksAPI(scanLivro);
 
-        System.out.println(livro1.getDadosLivro());
+        System.out.println(filme1.getUrl());
+
 
     }
 }

@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
@@ -28,8 +29,9 @@ public class googleBooksAPI {
                 .uri(URI.create(fullUrl))
                 .build();
 
-        HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = CLIENT.send(request , HttpResponse.BodyHandlers.ofString());
 
         return response.body();
     }
 }
+
