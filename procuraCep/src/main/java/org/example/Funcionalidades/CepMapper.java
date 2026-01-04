@@ -1,6 +1,7 @@
-package org.example;
+package org.example.Funcionalidades;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.records.Cep;
 
 public class CepMapper {
     private static final ObjectMapper mapper = new ObjectMapper();
