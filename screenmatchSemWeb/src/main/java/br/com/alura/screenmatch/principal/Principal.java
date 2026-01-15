@@ -27,31 +27,38 @@ public class Principal {
         try {
             var dados = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome );
             var result = conversor.obterDados(dados, DadosSeries.class);
-            System.out.println(result);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public void exibeTodasTemporadas() {
-        System.out.println("Digite a se quer ver todas as temporadas dessa serie:");
-        var serieNome = URLEncoder.encode(scanner.nextLine(), StandardCharsets.UTF_8);
+            System.out.println(result + "\n");
 
-        try {
-            var dados = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome);
-            var result = conversor.obterDados(dados, DadosTemporada.class);
-            var parseResult = Integer.parseInt(result.totalTemporadas());
-
-            for(int i = 1; i <= parseResult; i++){
-                var dados1 = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome +"&season=" + i);
-                var result1 = conversor.obterDados(dados1, DadosTemporada.class);
-                System.out.println(result1);
+            for(int i = 1; i <= result.totalTemporadas(); i++){
+                var dadosListaEpisodios = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome +"&season=" + i);
+                var resultEpisodios = conversor.obterDados(dadosListaEpisodios, DadosTemporada.class);
+                System.out.println(resultEpisodios);
             }
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
+
+
+//    public void exibeTodasTemporadas() {
+//        System.out.println("Digite a se quer ver todas as temporadas dessa serie:");
+//        var serieNome = URLEncoder.encode(scanner.nextLine(), StandardCharsets.UTF_8);
+//
+//        try {
+//            var dados = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome);
+//            var result = conversor.obterDados(dados, DadosTemporada.class);
+//            var parseResult = Integer.parseInt(result.totalTemporadas());
+//
+//            for(int i = 1; i <= parseResult; i++){
+//                var dados1 = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome +"&season=" + i);
+//                var result1 = conversor.obterDados(dados1, DadosTemporada.class);
+//                System.out.println(result1);
+//            }
+//
+//        } catch (IOException | InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
 }

@@ -20,6 +20,6 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
         principal.exibirMenu();
 
-        principal.exibeTodasTemporadas();
+//        principal.exibeTodasTemporadas();
     }
 }
