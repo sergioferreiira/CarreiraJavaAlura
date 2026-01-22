@@ -1,0 +1,13 @@
+package com.example.fipeApiProjeto;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class FipeApiProjetoApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

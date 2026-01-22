@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch.principal;
 
+import br.com.alura.screenmatch.models.DadosEpisodio;
 import br.com.alura.screenmatch.models.DadosSeries;
 import br.com.alura.screenmatch.models.DadosTemporada;
 import br.com.alura.screenmatch.services.ConsumoApi;
@@ -8,6 +9,8 @@ import br.com.alura.screenmatch.services.ConverteDados;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
@@ -29,36 +32,34 @@ public class Principal {
             var result = conversor.obterDados(dados, DadosSeries.class);
             System.out.println(result + "\n");
 
-            for(int i = 1; i <= result.totalTemporadas(); i++){
+            for(int i = 1; i <= 2; i++){
                 var dadosListaEpisodios = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome +"&season=" + i);
                 var resultEpisodios = conversor.obterDados(dadosListaEpisodios, DadosTemporada.class);
                 System.out.println(resultEpisodios);
-            }
 
+            }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public void test(){
+        System.out.println("Digite o nome da serie : ");
+        var serieNome = URLEncoder.encode(scanner.nextLine(), StandardCharsets.UTF_8);
 
-//    public void exibeTodasTemporadas() {
-//        System.out.println("Digite a se quer ver todas as temporadas dessa serie:");
-//        var serieNome = URLEncoder.encode(scanner.nextLine(), StandardCharsets.UTF_8);
-//
-//        try {
-//            var dados = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome);
-//            var result = conversor.obterDados(dados, DadosTemporada.class);
-//            var parseResult = Integer.parseInt(result.totalTemporadas());
-//
-//            for(int i = 1; i <= parseResult; i++){
-//                var dados1 = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome +"&season=" + i);
-//                var result1 = conversor.obterDados(dados1, DadosTemporada.class);
-//                System.out.println(result1);
-//            }
-//
-//        } catch (IOException | InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
+        try {
+            var dados = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome );
+            var result = conversor.obterDados(dados, DadosSeries.class);
+            System.out.println(result + "\n");
+
+            for(int i = 1; i <= 1; i++){
+                var dadosListaEpisodios = consumoApi.ObterDados(URL_OMDB + API_KEY + serieNome +"&season=" + i);
+                var resultEpisodios = conversor.obterDados(dadosListaEpisodios, DadosTemporada.class);
+                System.out.println(resultEpisodios);
+
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
