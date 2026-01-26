@@ -1,5 +1,6 @@
 package com.example.fipeApiProjeto;
 
+import com.example.fipeApiProjeto.principal.ExibeMenu;
 import com.example.fipeApiProjeto.principal.Principal;
 import com.example.fipeApiProjeto.service.ApiFipe;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,9 +15,10 @@ public class FipeApiProjetoApplication {
 	public static void main(String[] args) throws JsonProcessingException {
 		SpringApplication.run(FipeApiProjetoApplication.class, args);
 
-        Principal x = new Principal();
+        ExibeMenu x = new ExibeMenu();
 
-        x.pesquisaFipe();
+        x.menu();
+
 
 
 
