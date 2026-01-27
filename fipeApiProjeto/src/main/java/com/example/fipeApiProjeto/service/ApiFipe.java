@@ -8,7 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class ApiFipe {
-
+    public String urlBusca = "https://parallelum.com.br/fipe/api/v1/";
 
 
     public String BuscaMarcas (String x){

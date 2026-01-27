@@ -1,24 +1,16 @@
 package com.example.fipeApiProjeto.principal;
 
-
-import com.example.fipeApiProjeto.models.Marca;
-import com.example.fipeApiProjeto.service.ApiFipe;
+import com.example.fipeApiProjeto.service.BuscadorMarcas;
+import com.example.fipeApiProjeto.service.StreamFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class ExibeMenu {
-    private String urlBusca = "https://parallelum.com.br/fipe/api/v1/";
-    ObjectMapper map = new ObjectMapper();
+    BuscadorMarcas marcas = new BuscadorMarcas();
     Scanner scan = new Scanner(System.in);
+    StreamFilter streamFilter = new StreamFilter();
 
     public void menu () throws JsonProcessingException {
-        ApiFipe buscaVeiculo = new ApiFipe();
 
         System.out.println("****************** " +
                 "\n Escolha entre : " +
@@ -30,44 +22,20 @@ public class ExibeMenu {
 
         String escolhaTipo = scan.nextLine().toLowerCase();
 
-        String buscando = buscaVeiculo.BuscaMarcas(urlBusca + escolhaTipo + "/marcas");
+        System.out.println(marcas.buscandoMarcas(escolhaTipo));
 
-        JsonNode rootMarcas = map.readTree(buscando);
-        String prettyJsonMarcas = map.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(rootMarcas);
+        System.out.println("Escolha o modelo: \n");
 
-        List<Marca> marcaRecord = map.readValue(
-                prettyJsonMarcas,
-                new TypeReference<List<Marca>>() {}
-        );
+        var escolhaModelo = scan.nextLine().toUpperCase();
 
-        System.out.println(marcaRecord);
+        marcas.buscandoModelos(escolhaTipo, escolhaModelo);
 
+        System.out.println("Escolha o modelo para verificar os anos:");
 
-        System.out.println("Escolha o codigo ou nome da marca");
+//        var escolhaAno = scan.nextLine().toUpperCase();
 
-        var codigoNomeMarca = scan.nextLine().toUpperCase();
-
-        var x = marcaRecord.stream().filter(
-                m -> m.descricao().equalsIgnoreCase(codigoNomeMarca) ||
-                m.cod().equalsIgnoreCase(codigoNomeMarca))
-                .map(Marca::cod)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Marca não encontrada"));
+//        marcas.buscandoAnos(escolhaTipo, escolhaMarca,escolhaAno);
 
 
-
-
-
-        String buscandoModelos = buscaVeiculo.BuscaMarcas(urlBusca + escolhaTipo + "/marcas" + "/"+ x + "/"+"modelos");
-
-        JsonNode rootModelos = map.readTree(buscandoModelos);
-        JsonNode modelosNode = rootModelos.path("modelos");
-        String prettyJsonModelos = map.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(modelosNode);
-
-
-        System.out.println(prettyJsonModelos);
-
-}
+    }
 }
