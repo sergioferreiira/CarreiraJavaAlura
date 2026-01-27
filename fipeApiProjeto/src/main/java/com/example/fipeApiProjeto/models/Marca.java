@@ -11,4 +11,5 @@ public record Marca(@JsonAlias("codigo") String cod ,
         return  " Cód : " + cod +
                 " descricao : " + descricao + "\n";
     }
+
 }

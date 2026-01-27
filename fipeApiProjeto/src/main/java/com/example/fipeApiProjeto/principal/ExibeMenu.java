@@ -1,11 +1,15 @@
 package com.example.fipeApiProjeto.principal;
 
 
+import com.example.fipeApiProjeto.models.Marca;
 import com.example.fipeApiProjeto.service.ApiFipe;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ExibeMenu {
@@ -32,14 +36,30 @@ public class ExibeMenu {
         String prettyJsonMarcas = map.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(rootMarcas);
 
-        System.out.println(prettyJsonMarcas);
+        List<Marca> marcaRecord = map.readValue(
+                prettyJsonMarcas,
+                new TypeReference<List<Marca>>() {}
+        );
+
+        System.out.println(marcaRecord);
 
 
         System.out.println("Escolha o codigo ou nome da marca");
 
         var codigoNomeMarca = scan.nextLine().toUpperCase();
 
-        String buscandoModelos = buscaVeiculo.BuscaMarcas(urlBusca + escolhaTipo + "/marcas" + "/"+ codigoNomeMarca + "/"+"modelos");
+        var x = marcaRecord.stream().filter(
+                m -> m.descricao().equalsIgnoreCase(codigoNomeMarca) ||
+                m.cod().equalsIgnoreCase(codigoNomeMarca))
+                .map(Marca::cod)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Marca não encontrada"));
+
+
+
+
+
+        String buscandoModelos = buscaVeiculo.BuscaMarcas(urlBusca + escolhaTipo + "/marcas" + "/"+ x + "/"+"modelos");
 
         JsonNode rootModelos = map.readTree(buscandoModelos);
         JsonNode modelosNode = rootModelos.path("modelos");
