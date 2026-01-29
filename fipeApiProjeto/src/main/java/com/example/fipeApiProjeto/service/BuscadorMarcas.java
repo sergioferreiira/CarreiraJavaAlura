@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,50 +36,55 @@ public class BuscadorMarcas {
 
     }
 
-    public void buscandoModelos(String tipo , String modelo) throws JsonProcessingException {
+    public List<Marca> buscandoModelos(String tipo , String modelo) throws IOException {
 
         List<Marca> marcasBuscadas = buscandoMarcas(tipo);
 
-        System.out.println("aqui sao as marcas buscadas ***********************");
 
-        System.out.println(marcasBuscadas);
+        String numeroModelo = marcasBuscadas.stream()
+                .filter(m -> m.cod().equalsIgnoreCase(modelo) ||
+                        m.descricao().equalsIgnoreCase(modelo))
+                .map(Marca::cod)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("not founded"));
+
+        String buscando = buscaVeiculo.BuscaMarcas(buscaVeiculo.urlBusca + tipo + "/marcas/" + numeroModelo + "/modelos" );
+
+        JsonNode root = map.readTree(buscando);
+        JsonNode modelosNode = root.path("modelos");
+
+        List<Marca> result = map
+                .readerForListOf(Marca.class)
+                .readValue(modelosNode);
+
+        System.out.println("Resultado:");
+        result.forEach(m ->
+                System.out.println("Código: " + m.cod() + " | Nome: " + m.descricao())
+        );
+        return result;
 
 
     }
 
-//    public void buscandoAnos(String tipo , String modelo, String anos) throws JsonProcessingException {
-//
-//        String buscandoAnos = buscaVeiculo.BuscaMarcas(buscaVeiculo.urlBusca  + tipo + "/marcas/"+ modelo + "/modelos/" + anos + "/anos");
-//
-//        List<Marca> verificaAnos = map.readValue(
-//                prettyJsonModelos,
-//                new TypeReference<List<Marca>>() {}
-//        );
-//
-//        String numeroModeloAno = streamFilter.codFilter(verificaAnos , modeloVerificacao);
-//
-//
-//        List<Marca> x = map.readValue(
-//                buscandoAnos,
-//                new TypeReference<List<Marca>>() {}
-//        );
-//
-//        String anosPretty = map.writerWithDefaultPrettyPrinter().writeValueAsString(x);
-//
-//        System.out.println(anosPretty);
-//
-//        System.out.println("Escolha o ano que deseja ver o valor da FIPE: ");
-//
-//        var anoDigitado = scan.nextLine().toUpperCase();
-//
-//        String codigoAnoDigitado = streamFilter.codFilter(x , anoDigitado);
-//
-//        String valorFipe = buscaVeiculo.BuscaMarcas(buscaVeiculo.urlBusca + escolhaTipo + "/marcas/"+ marcaEscolhida + "/modelos/" + numeroModeloAno + "/anos/" + codigoAnoDigitado);
-//
-//
-//        var result = map.readValue(valorFipe , FipeVeiculo.class);
-//
-//        System.out.println(result);
-//
-//    }
+    public List<Marca> buscandoAnos(String tipo , String modelo, String anos) throws IOException {
+
+        List<Marca> marcasBuscadas = buscandoModelos(tipo, modelo);
+
+        String anoEscolhido = marcasBuscadas.stream()
+                .filter(m -> m.cod().equalsIgnoreCase(anos) ||
+                        m.descricao().equalsIgnoreCase(anos))
+                .map(Marca::cod)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("not founded"));
+
+        String buscando = buscaVeiculo.BuscaMarcas(buscaVeiculo.urlBusca + tipo + "/marcas/" + modelo + "/modelos/" + anoEscolhido + "/anos" );
+
+        JsonNode result = map.readTree(buscando);
+
+        List<Marca> listagemAnos = map.readerForListOf(Marca.class).readValue(buscando);
+
+        listagemAnos.forEach(m -> System.out.println("Código: " + m.cod() + "|" + "Ano:" + m.descricao()));
+
+        return listagemAnos;
+    }
 }

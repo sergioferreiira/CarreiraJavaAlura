@@ -3,6 +3,8 @@ package com.example.fipeApiProjeto.principal;
 import com.example.fipeApiProjeto.service.BuscadorMarcas;
 import com.example.fipeApiProjeto.service.StreamFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class ExibeMenu {
@@ -10,7 +12,7 @@ public class ExibeMenu {
     Scanner scan = new Scanner(System.in);
     StreamFilter streamFilter = new StreamFilter();
 
-    public void menu () throws JsonProcessingException {
+    public void menu () throws IOException {
 
         System.out.println("****************** " +
                 "\n Escolha entre : " +
@@ -32,9 +34,9 @@ public class ExibeMenu {
 
         System.out.println("Escolha o modelo para verificar os anos:");
 
-//        var escolhaAno = scan.nextLine().toUpperCase();
+        var escolhaAno = scan.nextLine().toUpperCase();
 
-//        marcas.buscandoAnos(escolhaTipo, escolhaMarca,escolhaAno);
+        marcas.buscandoAnos(escolhaTipo, escolhaModelo,escolhaAno);
 
 
     }
